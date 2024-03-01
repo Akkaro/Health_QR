@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title>Treatment Schedule Details</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+  <section layout:fragment="body">
+    <div class="container">
+      <h2>Treatment Schedule Details</h2>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>ID:</strong> <span th:text="${treatmentSchedule.treatmentScheduleId}"></span></p>
+              <p><strong>Nurse ID:</strong> <span th:text="${treatmentSchedule.nurseId}"></span></p>
+              <p><strong>Doctor ID:</strong> <span th:text="${treatmentSchedule.doctorId}"></span></p>
+              <p><strong>Treatment Text:</strong> <span th:text="${treatmentSchedule.treatmentText}"></span></p>
+              <p><strong>Status:</strong> <span th:text="${treatmentSchedule.status}"></span></p>
+              <p><strong>Execution Date:</strong> <span th:text="${treatmentSchedule.executionDate}"></span></p>
+              <p><strong>Creation Date:</strong> <span th:text="${treatmentSchedule.creationDate}"></span></p>
+              <p><strong>Updated On:</strong> <span th:text="${treatmentSchedule.updatedOn}"></span></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Treatment ID:</strong> <span th:text="${treatmentSchedule.treatment.treatmentId}"></span></p>
+              <!-- Add more fields related to the Treatment entity as needed -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="btn btn-primary" th:href="@{/treatmentSchedules/{treatmentScheduleId}/delete(treatmentScheduleId=${treatmentSchedule.treatmentScheduleId})}">Delete</a>
+      <!-- Add more sections or details as needed -->
+
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Events Edit</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <form role="form" method="post" th:action="@{/treatmentSchedules/{treatmentScheduleId}/edit(treatmentScheduleId=${treatmentScheduleId})}" th:object="${treatmentSchedule}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nurseId">Nurse ID</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="nurseId"
+                                name="nurseId"
+                                th:field="*{nurseId}"
+                                placeholder="Nurse ID">
+                        <p th:if="${#fields.hasErrors('nurseId')}" class="text-danger" th:errors="*{nurseId}"></p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="doctorId">Doctor ID</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="doctorId"
+                                name="doctorId"
+                                th:field="*{doctorId}"
+                                placeholder="Doctor ID">
+                        <p th:if="${#fields.hasErrors('doctorId')}" class="text-danger" th:errors="*{doctorId}"></p>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="treatmentText">Treatment Text</label>
+                    <textarea
+                            class="form-control"
+                            id="treatmentText"
+                            name="treatmentText"
+                            th:field="*{treatmentText}"
+                            placeholder="Treatment Text"
+                    ></textarea>
+                    <p th:if="${#fields.hasErrors('treatmentText')}" class="text-danger" th:errors="*{treatmentText}"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="status">Status</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="status"
+                            name="status"
+                            th:field="*{status}"
+                            placeholder="Status">
+                    <p th:if="${#fields.hasErrors('status')}" class="text-danger" th:errors="*{status}"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="executionDate">Execution Date</label>
+                    <input
+                            type="datetime-local"
+                            class="form-control"
+                            id="executionDate"
+                            name="executionDate"
+                            th:field="*{executionDate}"
+                            placeholder="Execution Date">
+                    <p th:if="${#fields.hasErrors('executionDate')}" class="text-danger" th:errors="*{executionDate}"></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>

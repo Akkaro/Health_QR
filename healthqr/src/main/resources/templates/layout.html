@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org"
+>
+<head th:fragment="header">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">HealthQR</title>
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-5">
+        <h1 class="navbar-brand" th:href="@{/treatments}">Hospital management</h1>
+        <a sec:authorize="isAuthenticated()" class="navbar-brand" >
+            Authenticated as <span sec:authentication="name"></span>
+            Role:
+            <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                <span th:text="${highestRole.getName()}"></span>
+            </span>
+        </a>
+
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"-->
+<!--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span-->
+<!--                class="navbar-toggler-icon"></span></button>-->
+
+        <section sec:authorize="isAuthenticated()">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                    <div th:if="${highestRole.getName() == 'DOCTOR' or highestRole.getName() == 'NURSE' or highestRole.getName() == 'ADMIN'}">
+                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio2" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Treatment</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                        <li sec:authorize="isAuthenticated()" class="dropdown-item"><a class="dropdown-item"
+                                                                                       th:href="@{/treatments}">Treatments</a></li>
+                        <li sec:authorize="isAuthenticated()" class="dropdown-item"><a class="dropdown-item"
+                                                                                       th:href="@{/treatmentSchedules}">Treatment Schedules</a></li>
+                    </ul>
+                    </li>
+                    </div>
+                </span>
+
+                <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                    <div th:if="${highestRole.getName() == 'DOCTOR' or highestRole.getName() == 'NURSE' or highestRole.getName() == 'ADMIN'}">
+                        <li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" th:href="@{/patients}">Patients</a></li>
+                    </div>
+                </span>
+
+                <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                    <div th:if="${highestRole.getName() == 'PATIENT'}">
+                        <head th:with="component =${'/static/component'}, bizJs = ${'/static/js/biz'}">
+                            <li sec:authorize="isAuthenticated()" class="nav-item">
+                                <section th:with="currentUsername = ${#authentication.principal.username}, patient =${@patientServiceImpl.findPatientByEmail(currentUsername)}">
+                                    <section th:with="myTreatmentId = ${@treatmentServiceImpl.findTreatmentByPatientId(patient.personId)}">
+                                        <section th:if="${myTreatmentId != null}">
+                                        <a class="nav-link" th:href="@{/treatments/{id}/details(id=${myTreatmentId.treatmentId})}">
+                                            My treatment
+                                        </a>
+                                            </section>
+                                    </section>
+                                </section>
+                            </li>
+                    </div>
+                </span>
+
+
+
+
+
+<!--                <li sec:authorize="!isAuthenticated()" class="nav-item"><a class="nav-link me-3 btn btn-primary"-->
+<!--                                                                           th:href="@{/login}">Login</a></li>-->
+                <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                    <div th:if="${highestRole.getName() == 'DOCTOR' or highestRole.getName() == 'NURSE' or highestRole.getName() == 'ADMIN'}">
+                        <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio1" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">Register</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+
+                            <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                                <div th:if="${highestRole.getName() == 'DOCTOR' or highestRole.getName() == 'NURSE' or highestRole.getName() == 'ADMIN'}">
+                                    <li sec:authorize="isAuthenticated()" class="dropdown-item">
+                                        <a class="dropdown-item" th:href="@{/register}">Register new staff</a>
+                                    </li>
+                                </div>
+                            </span>
+
+
+                                <li sec:authorize="isAuthenticated()" class="dropdown-item">
+                            <a class="dropdown-item" th:href="@{/register}">Register new patient</a></li>
+                            </ul>
+                        </li>
+                    </div>
+                </span>
+
+                <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Welcome</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                        <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                            <div th:if="${highestRole.getName() == 'DOCTOR' or highestRole.getName() == 'ADMIN'}">
+                                <li><a class="dropdown-item" th:href="@{/treatments/new}">Create Treatment</a></li>
+                            </div>
+                        </span>
+                        <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        </section>
+    </div>
+</nav>
+<body layout:fragment="body"></body>
+<section class="py-5 bg-light">
+    <div class="container px-5 my-5">
+        <a class="btn btn-lg btn-primary" href="#!">Contact us</a>
+    </div>
+</section>
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto">
+                <div class="small m-0 text-white">Copyright &copy; Your Website 2023</div>
+            </div>
+            <div class="col-auto">
+                <a class="link-light small" href="#!">Privacy</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Terms</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Contact</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</html>

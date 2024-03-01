@@ -1,0 +1,82 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Club Create</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <section layout:fragment="body" class="py-5">
+        <div class = "container">
+            <form role="form" method="post" th:action="@{/treatments/new}" th:object="${treatment}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="doctorId">Doctor ID</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="doctorId"
+                                name="doctorId"
+                                th:field="*{doctorId}"
+                                placeholder="Doctor ID">
+                        <p th:if="${#fields.hasErrors('doctorId')}" class="text-danger" th:errors="*{doctorId}"></p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="patientId">Patient ID</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="patientId"
+                                name="patientId"
+                                th:field="*{patientId}"
+                                placeholder="Patient ID">
+                        <p th:if="${#fields.hasErrors('patientId')}" class="text-danger" th:errors="*{patientId}"></p>
+                    </div>
+                </div>
+
+
+                <div class="form-group mb-3">
+                    <label for="currentStatus">Current Status</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="currentStatus"
+                            name="currentStatus"
+                            th:field="*{currentStatus}"
+                            placeholder="Current Status">
+                    <p th:if="${#fields.hasErrors('currentStatus')}" class="text-danger" th:errors="*{currentStatus}"></p>
+                </div>
+
+                <div class="form-group mb-3">
+
+                    <label for="completionDate"> Completion Date:</label>
+                    <input type="datetime-local"
+                           id="completionDate"
+                           name="completionDate"
+                           min="2015-01-01T00:00"
+                           max="2025-12-31T23:59"
+                           step="1"
+                           th:field="*{completionDate}"
+                           placeholder="Complition Date">
+                    <p th:if="${#fields.hasErrors('completionDate')}" class="text-danger" th:errors="*{completionDate}"></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+
+<script>
+    export default {
+        data() {
+            return {
+                value: ''
+            }
+        }
+    }
+</script>
+
+</html>
+

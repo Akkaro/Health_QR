@@ -1,0 +1,59 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Treatment Details</title>
+    <style>
+        body {
+            font-size: 1.2rem; /* Adjust the base font size */
+        }
+
+        .fw-bolder {
+            font-weight: bolder;
+            font-size: 1.5rem; /* Adjust the font size for titles */
+        }
+
+        .card {
+            margin-bottom: 20px; /* Add space between treatment schedules */
+        }
+    </style>
+</head>
+<body class="d-flex flex-column">
+
+<section layout:fragment="body" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="fw-bolder mb-2">Treatment ID: <span th:text="${treatment.treatmentId}"></span></div>
+            <div class="fw-bolder mb-2">Doctor ID: <span th:text="${treatment.doctorId}"></span></div>
+            <div class="fw-bolder mb-2">Patient ID: <span th:text="${treatment.patientId}"></span></div>
+            <div class="fw-bolder mb-2">Creation Date: <span th:text="${treatment.creationDate}"></span></div>
+            <div class="fw-bolder mb-2">Completion Date: <span th:text="${treatment.completionDate}"></span></div>
+            <div class="fw-bolder mb-2">Current Status: <span th:text="${treatment.currentStatus}"></span></div>
+            <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                    <div th:if="${highestRole.getName() != 'PATIENT'}">
+            <a class="btn btn-primary" th:href="@{/treatments/{treatmentId}/delete(treatmentId=${treatment.treatmentId})}">Delete</a>
+            <a class="btn btn-primary" th:href="@{/treatmentSchedules/{treatmentId}/new(treatmentId=${treatment.treatmentId})}">Create Treatment Schedule</a>
+                    </div>
+            </span>
+        </div>
+        <div th:each="treatmentSchedule :${treatment.treatmentSchedules}" class="card">
+            <div class="card-body">
+                <h2>
+                    To be executed: <span th:text="${#temporals.format(treatmentSchedule.executionDate, 'yyyy-MM-dd HH:mm')}" class="small text-muted"></span>
+                </h2>
+                <div class="card-title h4" th:text="${treatmentSchedule.status}"></div>
+                <pre class="card-text" th:text="${treatmentSchedule.treatmentText}"></pre>
+                <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                    <div th:if="${highestRole.getName() != 'PATIENT'}">
+                <a class="btn btn-primary" th:href="@{/treatmentSchedules/{treatmentScheduleId}/edit(treatmentScheduleId=${treatmentSchedule.treatmentScheduleId})}">Edit</a>
+                <a class="btn btn-primary" th:href="@{/treatmentSchedules/{treatmentScheduleId}/details(treatmentScheduleId=${treatmentSchedule.treatmentScheduleId})}">Details</a>
+                    </div>
+                </span>
+                    </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

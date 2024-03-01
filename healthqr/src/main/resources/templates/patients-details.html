@@ -1,0 +1,45 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Patient Details</title>
+    <style>
+        body {
+            font-size: 1.2rem; /* Adjust the base font size */
+        }
+
+        .fw-bolder {
+            font-weight: bolder;
+            font-size: 1.5rem; /* Adjust the font size for titles */
+        }
+
+        .card {
+            margin-bottom: 20px; /* Add space between treatment schedules */
+        }
+    </style>
+</head>
+<body class="d-flex flex-column">
+
+<section layout:fragment="body" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="fw-bolder mb-2">Person ID: <span th:text="${patient.personId}"></span></div>
+            <div class="fw-bolder mb-2">First Name: <span th:text="${patient.firstName}"></span></div>
+            <div class="fw-bolder mb-2">Last Name: <span th:text="${patient.lastName}"></span></div>
+            <div class="fw-bolder mb-2">Email: <span th:text="${patient.email}"></span></div>
+            <div class="fw-bolder mb-2">Mobile Phone Number: <span th:text="${patient.mobilePhoneNumber}"></span></div>
+            <div class="fw-bolder mb-2">Date of Birth: <span th:text="${patient.dateOfBirth}"></span></div>
+            <div class="fw-bolder mb-2">Personal Identification Number: <span th:text="${patient.personalIdentificationNumber}"></span></div>
+            <div class="fw-bolder mb-2">Blood Type: <span th:text="${patient.bloodType}"></span></div>
+            <div class="fw-bolder mb-2">Medical Status: <span th:text="${patient.medicalStatus}"></span></div>
+            <div class="fw-bolder mb-2">Entry Date: <span th:text="${patient.entryDate}"></span></div>
+            <div class="fw-bolder mb-2">QR Code Link: <span th:text="${patient.qrCodeLink}"></span></div>
+            <a class="btn btn-primary" th:href="@{/patients/{personId}/delete(personId=${patient.personId})}">Delete</a>
+
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

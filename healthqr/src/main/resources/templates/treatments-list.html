@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Treatment List</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <section layout:fragment="body" class="py-5">
+        <div class="container px-5 my-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Treatment List</h1>
+            </div>
+            <div class="row gx-5">
+                <div th:each="treatment : ${treatments}" class="col-lg-6 mb-2">
+                    <span th:with="highestRole=${@userServiceImpl.getHighestRole()}">
+                        <div th:if="${highestRole.getName() == 'ADMIN' or user.id == treatment.createdBy.id}">
+                    <div class="card-body">
+                        <h2>
+                            Created on: <span th:text="${#temporals.format(treatment.creationDate, 'yyyy-MM-dd HH:mm')}" class="small text-muted"></span>
+                        </h2>
+                        <div class="card-title h4" th:text="${treatment.currentStatus}"></div>
+                        <p class="card-text">Patient ID: <span th:text="${treatment.patientId}"></span></p>
+                        <a th:href="@{/treatments/{treatmentId}/details(treatmentId=${treatment.treatmentId})}" class="btn btn-primary">View</a>
+                        <a th:href="@{/treatments/{treatmentId}/update(treatmentId=${treatment.treatmentId})}" class="btn btn-primary">Edit</a>
+                    </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+
+</html>
