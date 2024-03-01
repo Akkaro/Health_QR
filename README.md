@@ -1,1 +1,1 @@
-For the documentation please see the HEALTH_QR.docx file.
+For the documentation please see the HEALTHQR.docx file.
